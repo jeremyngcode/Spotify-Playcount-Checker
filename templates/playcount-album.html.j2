@@ -1,6 +1,19 @@
 {% extends "playcount-layout.html.j2" %}
 {% import "macros.html.j2" as m %}
 
+{% block artist_links_card %}
+	<section class="artist-links-card">
+		{% for artist in artists %}
+			<div class="artist-link">
+				<a href="{{ artist['spotify_url'] }}" class="spotify-img-wrapper" target="_blank">
+					<img src="{{ artist['image_url'] }}" class="spotify-img">
+				</a>
+				<h2><a href="/playcount?uri-input=spotify%3Aartist%3A{{ artist['id'] }}" class="name">{{ artist['name'] }}</a></h2>
+			</div>
+		{% endfor %}
+	</section>
+{% endblock %}
+
 {% block data_table %}
 	<table class="tracks-table">
 		<thead>

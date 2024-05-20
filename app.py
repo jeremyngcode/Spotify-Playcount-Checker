@@ -71,6 +71,7 @@ def playcount_page():
 	elif page == 'Album':
 		return render_template("playcount-album.html.j2",
 			**base_data,
+			artists=data['artists'],
 			tracks=data['tracks'],
 			is_multidisc=data['is_multi-disc'],
 			track_highlight=track_highlight
@@ -238,9 +239,12 @@ def get_album_data(album_id=None, track_highlight=None):
 		'popularity_index': str(data['popularity']),
 		'image_url': data['images'][0]['url'],
 		'spotify_url': data['external_urls']['spotify'],
+		'artists': [],
 		'tracks': [],
 		'is_multi-disc': False
 	}
+
+	artist_id_list = [artist['id'] for artist in data['artists']]
 
 	track_id_list = [item['id'] for item in data['tracks']['items']]
 	if data['tracks']['next']:
@@ -256,15 +260,26 @@ def get_album_data(album_id=None, track_highlight=None):
 			else:
 				break
 
+	endpoint = "/artists"
+	params = {'ids': ','.join(artist_id_list)}
+	data = _get(session, endpoint, **params)
+
+	for artist in data['artists']:
+		artist_data = {
+			'name': artist['name'],
+			'image_url': artist['images'][0]['url'],
+			'spotify_url': artist['external_urls']['spotify'],
+			'id': artist['id']
+		}
+		album_data['artists'].append(artist_data)
+
 	start, end = 0, 50
 	step = end
 	while True:
 		if track_id_list[start:end]:
-			track_id_list_str = ','.join(track_id_list[start:end])
-
 			endpoint = "/tracks"
 			params = {
-				'ids': track_id_list_str,
+				'ids': ','.join(track_id_list[start:end]),
 				'market': None
 			}
 			data = _get(session, endpoint, **params)

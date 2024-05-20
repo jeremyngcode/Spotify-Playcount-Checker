@@ -91,7 +91,7 @@ html {
 		--bg-color-error-msg-wrapper: hsl(0 0% 8%);
 
 		/* Text color */
-		--text-color-default: hsl(0 0% 55%);
+		--text-color-default: hsl(0 0% 60%);
 		--text-color-white: hsl(var(--pri-H) var(--pri-S) 88%);
 		--text-color-link-hover: hsl(var(--acc-H) var(--acc-S) 29%);
 
@@ -101,7 +101,7 @@ html {
 		--btn-color-text: hsl(var(--acc-H) var(--acc-S) 90%);
 
 		/* URI input color */
-		--uri-input-color-placeholder: hsl(0 0% 45%);
+		--uri-input-color-placeholder: hsl(0 0% 50%);
 		--uri-input-color-border: hsl(0 0% 9%) hsl(0 0% 46%) hsl(0 0% 46%) hsl(0 0% 9%);
 
 		/* Spotify icon color */
