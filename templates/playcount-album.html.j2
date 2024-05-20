@@ -1,0 +1,29 @@
+{% extends "playcount-layout.html.j2" %}
+{% import "macros.html.j2" as m %}
+
+{% block data_table %}
+	<table class="tracks-table">
+		<thead>
+			<tr>
+				<th class="tracks-header" colspan="4">TRACKS &#128191;</th>
+			</tr>
+			<tr>
+				<th class="track-number">#</th>
+				<th class="title">Title</th>
+				<th class="playcount">Playcount</th>
+				<th class="popularity">Popularity</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if is_multidisc %}
+				{% for track in tracks %}
+					{{ m.track_row(track, track_highlight, track['disc_number'] + '-') }}
+				{% endfor %}
+			{% else %}
+				{% for track in tracks %}
+					{{ m.track_row(track, track_highlight) }}
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+{% endblock %}

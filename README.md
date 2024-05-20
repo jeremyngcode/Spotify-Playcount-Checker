@@ -1,0 +1,4 @@
+Spotify Playcount Checker
+=========================
+
+WIP.

@@ -1,0 +1,190 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	min-width: 36rem;
+	font-family: "Roboto", sans-serif;
+	background-color: var(--bg-color-main);
+	color: var(--text-color-default);
+	& a {
+		color: var(--text-color-default);
+	}
+}
+
+.header-banner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem 1.25rem;
+	margin-bottom: 1.5rem;
+	background-color: var(--pri-color);
+	color: var(--text-color-white);
+	box-shadow: hsl(0 0% 0% / 60%) 0px 5px 10px;
+
+	.spotify-icon {
+		min-width: 3rem;
+		width: 3rem;
+		fill: var(--text-color-white);
+		margin-right: 0.25rem;
+	}
+	.header {
+		padding: 0.625rem;
+	}
+}
+
+.girl-with-headphone {
+	width: 220px;
+	border-radius: 50%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1.5rem;
+	box-shadow: hsl(var(--pri-H) var(--pri-S) var(--pri-L) / 50%) 0px 0px 25px;
+	animation: FadeIn 0.5s ease-in-out;
+	@media (prefers-color-scheme: dark) {
+		& {
+			filter: brightness(80%);
+			box-shadow: hsl(0 0% 0% / 50%) 0px 2px 7px;
+		}
+	}
+}
+
+.spotify-uri-search-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 1.5rem;
+	margin: 0rem 3.5rem 1.5rem;
+	border-radius: 0.625rem;
+	background-color: var(--bg-color-uri-search-form);
+	box-shadow: hsl(var(--pri-H) var(--pri-S) var(--pri-L) / 60%) 0px 2px 6px inset;
+	@media (prefers-color-scheme: dark) {
+		& {
+			box-shadow:
+				hsl(var(--pri-H) var(--pri-S) 5% / 60%) 0px 2px 6px 3px inset,
+				hsl(0 0% 100% / 20%) 0px -1px 4px inset;
+		}
+	}
+
+	.enter-spotify-uri {
+		font-size: 1.25rem;
+		font-weight: bold;
+	}
+	.uri-input {
+		width: 100%;
+		height: 2rem;
+		border: 2px solid;
+		border-color: var(--uri-input-color-border);
+		box-sizing: border-box;
+		border-radius: 0.5rem;
+		outline: none;
+		background-color: var(--uri-input-color);
+		color: var(--text-color-white);
+		font-family: monospace;
+		font-size: 1rem;
+		text-align: center;
+		&::placeholder {
+			color: var(--uri-input-color-placeholder);
+		}
+	}
+	.enter-spotify-uri, .uri-input {
+		margin-bottom: 1rem;
+	}
+
+	.submit-btn {
+		width: 8rem;
+		height: 2.375rem;
+		border: none;
+		box-sizing: border-box;
+		border-radius: 0.5rem;
+		margin-bottom: 0.5rem;
+		background-color: var(--btn-color);
+		color: var(--btn-color-text);
+		box-shadow:
+			hsl(0 0% 0% / 20%) 0px 0px 15px inset,
+			hsl(0 0% 0% / 40%) 1px 4px 10px;
+		font-size: 0.875rem;
+		font-weight: bold;
+		cursor: pointer;
+		transition: 0.25s;
+		&:hover, &:focus {
+			background-color: var(--btn-color-hover);
+			box-shadow:
+				hsl(0 0% 0% / 60%) -1px -2px 5px inset,
+				hsl(0 0% 0% / 40%) 0px 2px 5px;
+		}
+		&:active {
+			background-color: var(--btn-color-active);
+			box-shadow:
+				hsl(0 0% 0% / 60%) 3px 4px 5px inset,
+				hsl(0 0% 0% / 90%) 0px 0px 2px;
+			transition: 0.05s;
+		}
+		@media (prefers-color-scheme: dark) {
+			&, &:hover, &:focus {
+				box-shadow:
+					hsl(0 0% 0% / 90%) -1px -2px 5px inset,
+					hsl(0 0% 0% / 40%) 0px 1px 5px;
+			}
+			&:active {
+				box-shadow:
+					hsl(0 0% 0% / 75%) 3px 4px 5px inset,
+					hsl(0 0% 0% / 20%) -1px -1px 1px,
+					hsl(0 0% 100% / 10%) 1px 1px 1px;
+			}
+		}
+	}
+}
+
+.error-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0rem 3.5rem 1.5rem;
+
+	.error-msg-wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.5rem;
+		max-width: 700px;
+		padding: 1.25rem;
+		box-sizing: border-box;
+		border-radius: 0.625rem;
+		margin-bottom: 0.875rem;
+		background-color: var(--bg-color-error-msg-wrapper);
+		box-shadow:
+			hsl(var(--alert-H) var(--alert-S) var(--alert-L) / 60%) 0px 2px 6px inset,
+			hsl(0 0% 0% / 20%) 0px -1px 4px inset;
+		animation: SlideDown 0.5s ease-in-out;
+		z-index: -1;
+		@media (prefers-color-scheme: dark) {
+			& {
+				box-shadow:
+					hsl(var(--alert-H) var(--alert-S) var(--alert-L) / 60%) 0px 2px 6px inset,
+					hsl(0 0% 100% / 20%) 0px -1px 4px inset;
+			}
+		}
+
+		.header {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+		}
+		.alert {
+			min-width: 1.5rem;
+			width: 1.5rem;
+			fill: var(--alert-color-dark-1);
+		}
+	}
+}
+
+@keyframes FadeIn {
+	from {opacity: 0;}
+}
+
+@keyframes SlideDown {
+	from {transform: translateY(-10rem);}
+}

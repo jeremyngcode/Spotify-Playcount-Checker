@@ -1,0 +1,118 @@
+html {
+	/* Primary color: #503b59 */
+	--pri-H: 282; --pri-S: 20%;	--pri-L: 29%;
+	--pri-color: hsl(var(--pri-H) var(--pri-S) var(--pri-L));
+
+	--pri-L-light-1: calc(var(--pri-L) + 14%);
+	--pri-color-light-1: hsl(var(--pri-H) var(--pri-S) var(--pri-L-light-1));
+
+	/* Accent color: #f7931a */
+	--acc-H: 33; --acc-S: 93%; --acc-L: 54%;
+	--accent-color: hsl(var(--acc-H) var(--acc-S) var(--acc-L));
+
+	--acc-L-light-1: calc(var(--acc-L) + 37%);
+	--accent-color-light-1: hsl(var(--acc-H) var(--acc-S) var(--acc-L-light-1));
+
+	--acc-L-light-2: calc(var(--acc-L) + 41%);
+	--accent-color-light-2: hsl(var(--acc-H) var(--acc-S) var(--acc-L-light-2));
+
+	/* Alert color: #ef485a */
+	--alert-H: 354; --alert-S: 84%;	--alert-L: 61%;
+	--alert-color: hsl(var(--alert-H) var(--alert-S) var(--alert-L));
+
+	--alert-L-light-1: calc(var(--alert-L) + 35%);
+	--alert-color-light-1: hsl(var(--alert-H) var(--alert-S) var(--alert-L-light-1));
+
+	--alert-L-dark-1: calc(var(--alert-L) - 3%);
+	--alert-color-dark-1: hsl(var(--alert-H) var(--alert-S) var(--alert-L-dark-1));
+
+	/* Background color */
+	--bg-color-main: hsl(0 0% 93%);
+	--bg-color-uri-search-form: hsl(0 0% 91%);
+	--bg-color-data-card: hsl(0 0% 96%);
+	--bg-color-error-msg-wrapper: var(--alert-color-light-1);
+
+	/* Text color */
+	--text-color-default: hsl(0 0% 10%);
+	--text-color-white: hsl(var(--pri-H) var(--pri-S) 96%);
+	--text-color-link-hover: hsl(var(--acc-H) var(--acc-S) 34%);
+
+	/* Button color */
+	--btn-color: var(--accent-color);
+	--btn-color-hover: hsl(var(--acc-H) var(--acc-S) 61%);
+	--btn-color-active: hsl(var(--acc-H) var(--acc-S) 37%);
+	--btn-color-text: hsl(var(--acc-H) var(--acc-S) 98%);
+
+	/* URI input color */
+	--uri-input-color: var(--pri-color-light-1);
+	--uri-input-color-placeholder: hsl(0 0% 66%);
+	--uri-input-color-border: hsl(0 0% 13%) hsl(0 0% 46%) hsl(0 0% 46%) hsl(0 0% 13%);
+
+	/* Spotify icon color: #1db954 */
+	--spotify-icon-color: hsl(141 73% 42%);
+	--spotify-icon-color-link-hover: hsl(141 73% 34%);
+
+	/* Table row color */
+	--tr-color-odd: var(--bg-color-main);
+	--tr-color-even: hsl(0 0% 87%);
+	--tr-color-border-bottom: hsl(0 0% 81%);
+
+	/* Navigation button icon color */
+	--nav-btn-icon-color: hsl(0 0% 55%);
+}
+
+@media (prefers-color-scheme: dark) {
+	html {
+		/* Primary color */
+		--pri-H: 282; --pri-S: 20%;	--pri-L: 15%;
+		--pri-color: hsl(var(--pri-H) var(--pri-S) var(--pri-L));
+
+		--pri-L-light-1: calc(var(--pri-L) + 9%);
+		--pri-color-light-1: hsl(var(--pri-H) var(--pri-S) var(--pri-L-light-1));
+
+		/* Accent color */
+		--acc-H: 33; --acc-S: 93%; --acc-L: 30%;
+		--accent-color: hsl(var(--acc-H) var(--acc-S) var(--acc-L));
+
+		--acc-L-dark-1: calc(var(--acc-L) - 22%);
+		--accent-color-dark-1: hsl(var(--acc-H) var(--acc-S) var(--acc-L-dark-1));
+
+		--acc-L-dark-2: calc(var(--acc-L) - 26%);
+		--accent-color-dark-2: hsl(var(--acc-H) var(--acc-S) var(--acc-L-dark-2));
+
+		/* Alert color */
+		--alert-L-dark-1: calc(var(--alert-L) - 25%);
+		--alert-color-dark-1: hsl(var(--alert-H) var(--alert-S) var(--alert-L-dark-1));
+
+		/* Background color */
+		--bg-color-main: hsl(0 0% 10%);
+		--bg-color-uri-search-form: hsl(0 0% 12%);
+		--bg-color-data-card: hsl(0 0% 11%);
+		--bg-color-error-msg-wrapper: hsl(0 0% 8%);
+
+		/* Text color */
+		--text-color-default: hsl(0 0% 55%);
+		--text-color-white: hsl(var(--pri-H) var(--pri-S) 88%);
+		--text-color-link-hover: hsl(var(--acc-H) var(--acc-S) 29%);
+
+		/* Button color */
+		--btn-color-hover: hsl(var(--acc-H) var(--acc-S) 41%);
+		--btn-color-active: hsl(var(--acc-H) var(--acc-S) 22%);
+		--btn-color-text: hsl(var(--acc-H) var(--acc-S) 90%);
+
+		/* URI input color */
+		--uri-input-color-placeholder: hsl(0 0% 45%);
+		--uri-input-color-border: hsl(0 0% 9%) hsl(0 0% 46%) hsl(0 0% 46%) hsl(0 0% 9%);
+
+		/* Spotify icon color */
+		--spotify-icon-color: hsl(141 73% 32%);
+		--spotify-icon-color-link-hover: hsl(141 73% 24%);
+
+		/* Table row color */
+		--tr-color-even: hsl(0 0% 8%);
+		--tr-color-border-bottom: hsl(0 0% 5%);
+
+		/* Navigation button icon color */
+		--nav-btn-icon-color: hsl(0 0% 40%);
+	}
+}

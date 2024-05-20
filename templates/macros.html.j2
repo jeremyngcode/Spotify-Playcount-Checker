@@ -1,0 +1,8 @@
+{% macro track_row(track, track_highlight_id='', track_disc_number='') %}
+	<tr {% if track_highlight_id == track['id'] %}id="highlight-row"{% endif %}>
+		<td class="track-number">{{ track_disc_number }}{{ track['track_number'] }}</td>
+		<td class="title">{{ track['title'] }}</td>
+		<td class="playcount">{{ track['playcount'] }}</td>
+		<td class="popularity">{{ track['popularity_index'] }}</td>
+	</tr>
+{% endmacro %}
