@@ -175,46 +175,40 @@ def get_artist_data(artist_id):
 		data = _get(session, endpoint, **params)
 
 		album_id_list = [item['id'] for item in data['items']]
-		while True:
-			if data['next']:
-				data = _get(session, url=data['next'])
-				for item in data['items']:
-					album_id_list.append(item['id'])
-			else:
-				break
+
+		while data['next']:
+			data = _get(session, url=data['next'])
+
+			for item in data['items']:
+				album_id_list.append(item['id'])
+
 
 		start, end = 0, 20
 		step = end
-		while True:
-			if album_id_list[start:end]:
-				album_id_list_str = ','.join(album_id_list[start:end])
+		while album_id_list[start:end]:
+			endpoint = "/albums"
+			params = {
+				'ids': ','.join(album_id_list[start:end]),
+				'market': None
+			}
+			data = _get(session, endpoint, **params)
 
-				endpoint = "/albums"
-				params = {
-					'ids': album_id_list_str,
-					'market': None
+			for album in data['albums']:
+				playcount = _get_album_playcount(session, album['id'])[1]
+
+				album_data = {
+					'title': album['name'],
+					'total_tracks': str(album['total_tracks']),
+					'total_playcount': f'{playcount:,}',
+					'popularity_index': str(album['popularity']),
+					'cover_art_url': album['images'][0]['url'],
+					'spotify_url': album['external_urls']['spotify'],
+					'id': album['id']
 				}
-				data = _get(session, endpoint, **params)
+				artist_data[f'{album_type}s'].append(album_data)
+				artist_data['total_playcount'] += playcount
 
-				for album in data['albums']:
-					playcount = _get_album_playcount(session, album['id'])[1]
-
-					album_data = {
-						'title': album['name'],
-						'total_tracks': str(album['total_tracks']),
-						'total_playcount': f'{playcount:,}',
-						'popularity_index': str(album['popularity']),
-						'cover_art_url': album['images'][0]['url'],
-						'spotify_url': album['external_urls']['spotify'],
-						'id': album['id']
-					}
-					artist_data[f'{album_type}s'].append(album_data)
-					artist_data['total_playcount'] += playcount
-
-				start, end = start+step, end+step
-
-			else:
-				break
+			start, end = start+step, end+step
 
 	artist_data['total_playcount'] = f'{artist_data["total_playcount"]:,}'
 
@@ -245,20 +239,16 @@ def get_album_data(album_id=None, track_highlight=None):
 	}
 
 	artist_id_list = [artist['id'] for artist in data['artists']]
-
 	track_id_list = [item['id'] for item in data['tracks']['items']]
-	if data['tracks']['next']:
-		data_next = data['tracks']['next']
 
-		while True:
-			data = _get(session, url=data_next)
-			for item in data['items']:
-				track_id_list.append(item['id'])
+	data_next = data['tracks']['next']
+	while data_next:
+		data = _get(session, url=data_next)
 
-			if data['next']:
-				data_next = data['next']
-			else:
-				break
+		for item in data['items']:
+			track_id_list.append(item['id'])
+
+		data_next = data['next']
 
 	endpoint = "/artists"
 	params = {'ids': ','.join(artist_id_list)}
@@ -275,35 +265,31 @@ def get_album_data(album_id=None, track_highlight=None):
 
 	start, end = 0, 50
 	step = end
-	while True:
-		if track_id_list[start:end]:
-			endpoint = "/tracks"
-			params = {
-				'ids': ','.join(track_id_list[start:end]),
-				'market': None
+	while track_id_list[start:end]:
+		endpoint = "/tracks"
+		params = {
+			'ids': ','.join(track_id_list[start:end]),
+			'market': None
+		}
+		data = _get(session, endpoint, **params)
+
+		for track in data['tracks']:
+			playcount = album_playcount[track['name']]
+
+			track_data = {
+				'title': track['name'],
+				'disc_number': str(track['disc_number']),
+				'track_number': str(track['track_number']),
+				'playcount': f'{playcount:,}',
+				'popularity_index': str(track['popularity']),
+				'id': track['id']
 			}
-			data = _get(session, endpoint, **params)
+			album_data['tracks'].append(track_data)
 
-			for track in data['tracks']:
-				playcount = album_playcount[track['name']]
+			if int(track_data['disc_number']) > 1:
+				album_data['is_multi-disc'] = True
 
-				track_data = {
-					'title': track['name'],
-					'disc_number': str(track['disc_number']),
-					'track_number': str(track['track_number']),
-					'playcount': f'{playcount:,}',
-					'popularity_index': str(track['popularity']),
-					'id': track['id']
-				}
-				album_data['tracks'].append(track_data)
-
-				if int(track_data['disc_number']) > 1:
-					album_data['is_multi-disc'] = True
-
-			start, end = start+step, end+step
-
-		else:
-			break
+		start, end = start+step, end+step
 
 	pprint(album_data)
 	return album_data
