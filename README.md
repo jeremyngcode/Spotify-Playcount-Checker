@@ -15,10 +15,10 @@ Inputting a wrongly formatted or invalid Spotify URI / URL will result in a misc
 
 The app is currently able to fetch data for 3 categories of which one of two page types will be served depending on the category as per below.
 
-1. Artist page ([playcount-artist.html.j2](playcount-artist.html.j2)) for <em>Artist</em> queries. <br>
+1. Artist page ([playcount-artist.html.j2](templates/playcount-artist.html.j2)) for <em>Artist</em> queries. <br>
    <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/c2ec97a3-5b4e-4994-8ebf-e4c32b27c990" alt="sample-artist-page" width="600">
 
-2. Album page ([playcount-album.html.j2](playcount-album.html.j2)) for <em>Album</em> and <em>Track</em> queries. <br>
+2. Album page ([playcount-album.html.j2](templates/playcount-album.html.j2)) for <em>Album</em> and <em>Track</em> queries. <br>
    <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/a31b9a9d-9f25-4aa8-93a9-999a663ad07b" alt="sample-album-page" width="600">
 
    For track queries, the corresponding table row will be highlighted as well, as seen in the screenshot above.
