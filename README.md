@@ -27,6 +27,8 @@ The app is currently able to fetch data for 3 categories of which one of two pag
 
 - Do note that it is possible a timeout error may occur if Spotify takes too long to respond to any one API call that the app makes. It isn't common from my testing, simply retry and it should work again. So far I've only experienced this with very large artist catalogs.
 
+- Any track that has not accumulated at least 1000 streams will show a playcount value of 0.
+
 - In case of interest, a JSON file (spotify-data.json) with all the relevant Spotify data that were passed on to the frontend from the last query is kept.
 
 Some Thoughts...
