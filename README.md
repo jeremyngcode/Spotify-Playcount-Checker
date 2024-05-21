@@ -16,10 +16,10 @@ Inputting a wrongly formatted or invalid Spotify URI / URL will result in a misc
 The app is currently able to fetch data for 3 categories of which one of two page types will be served depending on the category as per below.
 
 1. Artist page ([playcount-artist.html.j2](templates/playcount-artist.html.j2)) for <em>Artist</em> queries. <br>
-   <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/c2ec97a3-5b4e-4994-8ebf-e4c32b27c990" alt="sample-artist-page" width="600">
+   <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/2378a814-2304-4930-839c-35480f5c6948" alt="sample-artist-page-light" width="600">
 
 2. Album page ([playcount-album.html.j2](templates/playcount-album.html.j2)) for <em>Album</em> and <em>Track</em> queries. <br>
-   <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/a31b9a9d-9f25-4aa8-93a9-999a663ad07b" alt="sample-album-page" width="600">
+   <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/3742f95c-f32c-4caa-8090-01aa64ea9ffe" alt="sample-album-page-light" width="700">
 
    For track queries, the corresponding table row will be highlighted as well, as seen in the screenshot above.
 
@@ -44,4 +44,4 @@ Another first for me was dark mode styling which I spent quite a bit of time and
 
 ---
 
-![sample-album-page-dark](https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/26720a89-ed4c-4f2d-b725-af36bcb44c69)
+![sample-album-page-dark](https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/7283d015-59d1-4387-a8e6-d0e7bd16e13f)
