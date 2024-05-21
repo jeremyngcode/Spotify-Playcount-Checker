@@ -23,9 +23,11 @@ The app is currently able to fetch data for 3 categories of which one of two pag
 
    For track queries, the corresponding table row will be highlighted as well, as seen in the screenshot above.
 
-All Spotify icon and image hyperlinks will redirect to Spotify's site, while text hyperlinks are internal, most of which are simply new queries. Pressing the A, C, and S navigation buttons at the bottom right corner will scroll to the Albums, Compilations, and Singles tables respectively.
+- All Spotify icon and image hyperlinks will redirect to Spotify's site, while text hyperlinks are internal, most of which are simply new queries. Pressing the A, C, and S navigation buttons at the bottom right corner will scroll to the Albums, Compilations, and Singles tables respectively.
 
-Do note that it is possible a timeout error may occur if Spotify takes too long to respond to any one API call that the app makes. It isn't common from my testing, simply retry and it should work again. So far I've only experienced this with very large artist catalogs.
+- Do note that it is possible a timeout error may occur if Spotify takes too long to respond to any one API call that the app makes. It isn't common from my testing, simply retry and it should work again. So far I've only experienced this with very large artist catalogs.
+
+- In case of interest, a JSON file (spotify-data.json) with all the relevant Spotify data that were passed on to the frontend from the last query is kept.
 
 Some Thoughts...
 ----------------
