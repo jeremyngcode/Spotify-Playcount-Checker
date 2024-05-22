@@ -291,7 +291,7 @@ def get_album_data(album_id=None, track_highlight=None):
 				album_data['is_multi-disc'] = True
 
 		else:
-			print(f'Successful data retrieval for {end - (step-i)} tracks..')
+			print(f'Successful data retrieval for {end - (step-i)} track(s)..')
 
 		start, end = start+step, end+step
 
