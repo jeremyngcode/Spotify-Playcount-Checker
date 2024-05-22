@@ -208,11 +208,12 @@ def get_artist_data(artist_id):
 				artist_data[f'{album_type}s'].append(album_data)
 				artist_data['total_playcount'] += playcount
 
+				print(f'Successful data retrieval for {album_data["title"]}..')
+
 			start, end = start+step, end+step
 
 	artist_data['total_playcount'] = f'{artist_data["total_playcount"]:,}'
 
-	pprint(artist_data)
 	return artist_data
 
 def get_album_data(album_id=None, track_highlight=None):
@@ -273,7 +274,7 @@ def get_album_data(album_id=None, track_highlight=None):
 		}
 		data = _get(session, endpoint, **params)
 
-		for track in data['tracks']:
+		for i, track in enumerate(data['tracks'], 1):
 			playcount = album_playcount[track['name']]
 
 			track_data = {
@@ -289,9 +290,11 @@ def get_album_data(album_id=None, track_highlight=None):
 			if int(track_data['disc_number']) > 1:
 				album_data['is_multi-disc'] = True
 
+		else:
+			print(f'Successful data retrieval for {end - (step-i)} tracks..')
+
 		start, end = start+step, end+step
 
-	pprint(album_data)
 	return album_data
 
 def _get_album_id_for_track(session, track_id):
