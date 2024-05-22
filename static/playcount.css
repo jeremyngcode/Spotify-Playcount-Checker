@@ -181,6 +181,7 @@ body {
 		justify-content: center;
 		align-items: center;
 		gap: 0.75rem;
+		min-width: 150px;
 		padding: 0.625rem;
 		box-sizing: border-box;
 		border-radius: 0.625rem;

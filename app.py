@@ -30,7 +30,7 @@ def playcount_page():
 		data = {
 			'page': artist_page,
 			'data': get_artist_data(spotify_id),
-			'track_highlight': None		
+			'track_highlight': None
 		}
 	elif search_category == 'album':
 		data = {
