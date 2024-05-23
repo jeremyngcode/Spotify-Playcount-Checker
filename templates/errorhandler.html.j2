@@ -1,13 +1,11 @@
 {% extends "home.html.j2" %}
+{% import "macros.html.j2" as m %}
 
 {% block error_box %}
 	<div class="error-box">
 		<div class="error-msg-wrapper">
 			<div class="header">
-				<svg class="alert" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-					<path d="M8 4a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 018 4zM8 10a1 1 0 100 2h.007a1 1 0 100-2H8z"></path>
-					<path d="M0 8a8 8 0 1116 0A8 8 0 010 8zm8-6.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z"></path>
-				</svg>
+				{{ m.alert_svg(class='alert') }}
 				<h3>{{ err_code }} - {{ err_name }}</h3>
 			</div>
 			<p>{{ err_msg }}</p>
