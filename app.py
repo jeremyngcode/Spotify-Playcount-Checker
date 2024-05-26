@@ -24,7 +24,7 @@ def home():
 def playcount_page():
 	now = time.perf_counter()
 	search_category, spotify_id = process_form_input(request.args.get('uri-input'))
-	artist_page, album_page = 'Artist', 'Album'
+	artist_page, album_page, playlist_page = 'Artist', 'Album', 'Playlist'
 
 	if search_category == 'artist':
 		data = {
@@ -44,6 +44,12 @@ def playcount_page():
 			'data': get_album_data(track_highlight=spotify_id),
 			'track_highlight': spotify_id
 		}
+	elif search_category == 'playlist':
+		data = {
+			'page': playlist_page,
+			'data': get_playlist_data(spotify_id),
+			'track_highlight': None
+		}
 	print('Time taken to load data:', time.perf_counter()-now)
 
 	with open(SPOTIFY_DATA, 'w') as f:
@@ -54,12 +60,17 @@ def playcount_page():
 
 	base_data = dict(
 		name=data['name'],
-		playcount=data['total_playcount'],
-		popularity=data['popularity_index'],
 		image_url=data['image_url'],
 		spotify_url=data['spotify_url'],
 		page=page
 	)
+	if page in {'Artist', 'Album'}:
+		base_data.update(
+			dict(
+				playcount=data['total_playcount'],
+				popularity=data['popularity_index']
+			)
+		)
 
 	if page == 'Artist':
 		return render_template("playcount-artist.html.j2",
@@ -75,6 +86,12 @@ def playcount_page():
 			tracks=data['tracks'],
 			is_multidisc=data['is_multi-disc'],
 			track_highlight=track_highlight
+		)
+	elif page == 'Playlist':
+		return render_template("playcount-playlist.html.j2",
+			**base_data,
+			followers=data['followers'],
+			tracks=data['tracks']
 		)
 
 def process_form_input(form_input):
@@ -97,7 +114,7 @@ def process_form_input(form_input):
 
 	search_category, spotify_id = form_input[1], form_input[2]
 
-	if search_category in ('artist', 'album', 'track'):
+	if search_category in ('artist', 'album', 'track', 'playlist'):
 		if len(spotify_id)==22 and spotify_id.isalnum():
 			return search_category, spotify_id
 
@@ -296,6 +313,64 @@ def get_album_data(album_id=None, track_highlight=None):
 		start, end = start+step, end+step
 
 	return album_data
+
+def get_playlist_data(playlist_id):
+	session = requests.Session()
+
+	endpoint = f"/playlists/{playlist_id}"
+	params = {
+		'market': None,
+		'fields': 'name,followers,images,external_urls'
+	}
+	data = _get(session, endpoint, **params)
+
+	playlist_data = {
+		'name': data['name'],
+		'followers': data['followers']['total'],
+		'image_url': data['images'][0]['url'],
+		'spotify_url': data['external_urls']['spotify'],
+		'tracks': []
+	}
+
+	endpoint = f"/playlists/{playlist_id}/tracks"
+	params = {
+		'market': None,
+		'fields': 'next,items(track.name,track.popularity,track.artists(name,id),track.album(images,external_urls,id)',
+		'limit': 100,
+		'offset': 0
+	}
+	data = _get(session, endpoint, **params)
+
+	playcount_data = {}
+	step = 0
+	while True:
+		for i, item in enumerate(data['items'], 1):
+			track = item['track']
+
+			if (album_id := track['album']['id']) not in playcount_data:
+				playcount_data[album_id] = _get_album_playcount(session, album_id)[0]
+
+			track_data = {
+				'title': track['name'],
+				'playcount': playcount_data[album_id][track['name']],
+				'popularity_index': track['popularity'],
+				'artists': track['artists'],
+				'cover_art_url': track['album']['images'][0]['url'],
+				'spotify_url': track['album']['external_urls']['spotify'],
+				'album_id': album_id
+			}
+			playlist_data['tracks'].append(track_data)
+
+		else:
+			print(f'Successful data retrieval for {step*params["limit"] + i} track(s)..')
+
+		if data['next']:
+			data = _get(session, url=data['next'])
+			step += 1
+		else:
+			break
+
+	return playlist_data
 
 def _get_album_id_for_track(session, track_id):
 	endpoint = f"/tracks/{track_id}"
