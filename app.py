@@ -30,13 +30,11 @@ def playcount_page():
 		data = {
 			'page': artist_page,
 			'data': get_artist_data(spotify_id),
-			'track_highlight': None
 		}
 	elif search_category == 'album':
 		data = {
 			'page': album_page,
 			'data': get_album_data(spotify_id),
-			'track_highlight': None
 		}
 	elif search_category == 'track':
 		data = {
@@ -48,14 +46,13 @@ def playcount_page():
 		data = {
 			'page': playlist_page,
 			'data': get_playlist_data(spotify_id),
-			'track_highlight': None
 		}
 	print('Time taken to load data:', time.perf_counter()-now)
 
 	with open(SPOTIFY_DATA, 'w') as f:
 		json.dump(data, f, indent=4)
 
-	track_highlight = data['track_highlight']
+	track_highlight = data.get('track_highlight')
 	page, data = data['page'], data['data']
 
 	base_data = dict(
@@ -114,7 +111,7 @@ def process_form_input(form_input):
 
 	search_category, spotify_id = form_input[1], form_input[2]
 
-	if search_category in ('artist', 'album', 'track', 'playlist'):
+	if search_category in {'artist', 'album', 'track', 'playlist'}:
 		if len(spotify_id)==22 and spotify_id.isalnum():
 			return search_category, spotify_id
 
@@ -198,7 +195,6 @@ def get_artist_data(artist_id):
 
 			for item in data['items']:
 				album_id_list.append(item['id'])
-
 
 		start, end = 0, 20
 		step = end
@@ -425,7 +421,7 @@ def _save_token_info():
 
 	if 'accessToken' not in response:
 		pprint(response)
-		print('URL:', ACCESS_TOKEN_URL)
+		print({'URL:', ACCESS_TOKEN_URL})
 
 		bad_response_msg = f'{bad_response} no access token granted.'
 		abort(500, description=bad_response_msg)
@@ -473,5 +469,5 @@ if __name__ == '__main__':
 	webbrowser.open(f"http://{app.config['HOST']}:{app.config['PORT']}")
 	app.run(
 		host=app.config['HOST'],
-		port=app.config['PORT'],
+		port=app.config['PORT']
 	)
