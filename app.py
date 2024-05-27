@@ -325,7 +325,7 @@ def get_playlist_data(playlist_id):
 
 	playlist_data = {
 		'name': data['name'],
-		'followers': data['followers']['total'],
+		'followers': str(data['followers']['total']),
 		'image_url': data['images'][0]['url'],
 		'spotify_url': data['external_urls']['spotify'],
 		'tracks': []
@@ -351,8 +351,8 @@ def get_playlist_data(playlist_id):
 
 			track_data = {
 				'title': track['name'],
-				'playcount': playcount_data[album_id][track['name']],
-				'popularity_index': track['popularity'],
+				'playcount': f'{playcount_data[album_id][track["name"]]:,}',
+				'popularity_index': str(track['popularity']),
 				'artists': track['artists'],
 				'cover_art_url': track['album']['images'][0]['url'],
 				'spotify_url': track['album']['external_urls']['spotify'],
