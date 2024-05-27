@@ -1,3 +1,9 @@
+{% macro title_playcount_pop() %}
+	<th class="title">Title</th>
+	<th class="playcount">Playcount</th>
+	<th class="popularity">Pop</th>
+{% endmacro %}
+
 {% macro track_row(track, track_highlight_id='', track_disc_number='') %}
 	<tr {% if track_highlight_id == track['id'] %}id="highlight-row"{% endif %}>
 		<td class="track-number">{{ track_disc_number }}{{ track['track_number'] }}</td>
