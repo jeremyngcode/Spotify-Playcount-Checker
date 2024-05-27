@@ -169,7 +169,7 @@ body {
 				}
 			}
 
-			.playcount-popularity h3 {
+			.playcount-popularity h3, .followers h3 {
 				font-size: 1.375rem;
 			}
 		}
@@ -233,7 +233,7 @@ body {
 	}
 
 	/* Tables */
-	.albums-table, .tracks-table {
+	.albums-table, .tracks-table, .playlist-table {
 		min-width: 600px;
 		max-width: 800px;
 		margin-bottom: 1.75rem;
@@ -278,8 +278,8 @@ body {
 			text-align: right;
 		}
 	}
-	/* Artist page tables */
-	.albums-table {
+	/* Artist + Playlist page tables */
+	.albums-table, .playlist-table {
 		& th, td {
 			padding: 0.875rem 1rem;
 		}
@@ -319,11 +319,16 @@ body {
 				}
 			}
 		}
-		.title .name:hover {
-			color: var(--text-color-link-hover);
+		.title .name, .title .artist {
+			&:hover {
+				color: var(--text-color-link-hover);
+			}
 		}
-		.title .total-tracks {
+		.title .total-tracks, .title .artist {
 			font-size: 0.75rem;
+		}
+		.title .artist-links span:not(:last-of-type)::before {
+			content: ",";
 		}
 	}
 	/* Album page table */
@@ -333,6 +338,7 @@ body {
 		}
 		.track-number {
 			text-align: left;
+			text-wrap: nowrap;
 		}
 		#highlight-row {
 			background-color: var(--accent-color-light-1);

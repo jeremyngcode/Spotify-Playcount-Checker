@@ -43,10 +43,16 @@
 						{{ m.spotify_icon_svg(class='spotify-icon') }}
 					</a>
 				</h2>
-				<div class="playcount-popularity">
-					<h3>Playcount: {{ playcount }}</h3>
-					<h3>Popularity: {{ popularity }}</h3>
-				</div>
+				{% if page in ('Artist', 'Album') %}
+					<div class="playcount-popularity">
+						<h3>Playcount: {{ playcount }}</h3>
+						<h3>Popularity: {{ popularity }}</h3>
+					</div>
+				{% elif page == 'Playlist' %}
+					<div class="followers">
+						<h3>Followers: {{ followers }}</h3>
+					</div>
+				{% endif %}
 			</div>
 		</section>
 

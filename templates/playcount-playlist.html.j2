@@ -1,0 +1,41 @@
+{% extends "playcount-layout.html.j2" %}
+{% import "macros.html.j2" as m %}
+
+{% block data_table %}
+	<table class="playlist-table">
+		<thead>
+			<tr>
+				<th class="tracks-header" colspan="4">TRACKS &#128191;</th>
+			</tr>
+			<tr>
+				<th class="spotify-icon-header">
+					{{ m.spotify_icon_svg(class='spotify-icon') }}
+				</th>
+				<th class="title">Title</th>
+				<th class="playcount">Playcount</th>
+				<th class="popularity">Pop</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for track in tracks %}
+				<tr>
+					<td class="album-cover-art">
+						<a href="{{ track['spotify_url'] }}" target="_blank">
+							<img src="{{ track['cover_art_url'] }}">
+						</a>
+					</td>
+					<td class="title">
+						<a href="/playcount?uri-input=spotify%3Aalbum%3A{{ track['album_id'] }}" class="name">{{ track['title'] }}</a>
+						<p class="artist-links">
+							{% for artist in track['artists'] %}
+								<a href="/playcount?uri-input=spotify%3Aartist%3A{{ artist['id'] }}" class="artist">{{ artist['name'] }}</a><span></span>
+							{% endfor %}
+						</p>
+					</td>
+					<td class="playcount">{{ track['playcount'] }}</td>
+					<td class="popularity">{{ track['popularity_index'] }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
