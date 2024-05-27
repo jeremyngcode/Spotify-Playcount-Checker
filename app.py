@@ -325,7 +325,7 @@ def get_playlist_data(playlist_id):
 
 	playlist_data = {
 		'name': data['name'],
-		'followers': str(data['followers']['total']),
+		'followers': f'{data["followers"]["total"]:,}',
 		'image_url': data['images'][0]['url'],
 		'spotify_url': data['external_urls']['spotify'],
 		'tracks': []
