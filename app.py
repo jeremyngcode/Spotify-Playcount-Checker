@@ -334,7 +334,7 @@ def get_playlist_data(playlist_id):
 	endpoint = f"/playlists/{playlist_id}/tracks"
 	params = {
 		'market': None,
-		'fields': 'next,items(track.name,track.popularity,track.artists(name,id),track.album(images,external_urls,id)',
+		'fields': 'next,items(track(name,popularity,id),track.artists(name,id),track.album(images,external_urls,id)',
 		'limit': 100,
 		'offset': 0
 	}
@@ -356,7 +356,7 @@ def get_playlist_data(playlist_id):
 				'artists': track['artists'],
 				'cover_art_url': track['album']['images'][0]['url'],
 				'spotify_url': track['album']['external_urls']['spotify'],
-				'album_id': album_id
+				'id': track['id']
 			}
 			playlist_data['tracks'].append(track_data)
 

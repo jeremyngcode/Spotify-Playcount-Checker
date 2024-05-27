@@ -25,7 +25,7 @@
 						</a>
 					</td>
 					<td class="title">
-						<a href="/playcount?uri-input=spotify%3Aalbum%3A{{ track['album_id'] }}" class="name">{{ track['title'] }}</a>
+						<a href="/playcount?uri-input=spotify%3Atrack%3A{{ track['id'] }}" class="name">{{ track['title'] }}</a>
 						<p class="artist-links">
 							{% for artist in track['artists'] %}
 								<a href="/playcount?uri-input=spotify%3Aartist%3A{{ artist['id'] }}" class="artist">{{ artist['name'] }}</a><span></span>
