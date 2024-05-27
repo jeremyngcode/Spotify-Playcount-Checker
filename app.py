@@ -29,12 +29,12 @@ def playcount_page():
 	if search_category == 'artist':
 		data = {
 			'page': artist_page,
-			'data': get_artist_data(spotify_id),
+			'data': get_artist_data(spotify_id)
 		}
 	elif search_category == 'album':
 		data = {
 			'page': album_page,
-			'data': get_album_data(spotify_id),
+			'data': get_album_data(spotify_id)
 		}
 	elif search_category == 'track':
 		data = {
@@ -45,7 +45,7 @@ def playcount_page():
 	elif search_category == 'playlist':
 		data = {
 			'page': playlist_page,
-			'data': get_playlist_data(spotify_id),
+			'data': get_playlist_data(spotify_id)
 		}
 	print('Time taken to load data:', time.perf_counter()-now)
 
