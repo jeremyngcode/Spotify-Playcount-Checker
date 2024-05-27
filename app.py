@@ -178,6 +178,7 @@ def get_artist_data(artist_id):
 		'singles': []
 	}
 
+	total_albums = 0
 	for album_type in ('album', 'compilation', 'single'):
 		endpoint = f"/artists/{artist_id}/albums"
 		params = {
@@ -225,8 +226,12 @@ def get_artist_data(artist_id):
 
 			start, end = start+step, end+step
 
+		print(f'{album_type.title()}s:', len(album_id_list))
+		total_albums += len(album_id_list)
+
 	artist_data['total_playcount'] = f'{artist_data["total_playcount"]:,}'
 
+	print('Total no. of releases:', total_albums)
 	return artist_data
 
 def get_album_data(album_id=None, track_highlight=None):
@@ -300,7 +305,7 @@ def get_album_data(album_id=None, track_highlight=None):
 			}
 			album_data['tracks'].append(track_data)
 
-			if int(track_data['disc_number']) > 1:
+			if track['disc_number'] > 1:
 				album_data['is_multi-disc'] = True
 
 		else:
