@@ -292,7 +292,7 @@ def get_album_data(album_id=None, track_highlight=None):
 		}
 		data = _get(session, endpoint, **params)
 
-		for i, track in enumerate(data['tracks'], 1):
+		for track in data['tracks']:
 			playcount = album_playcount[track['name']]
 
 			track_data = {
@@ -308,9 +308,7 @@ def get_album_data(album_id=None, track_highlight=None):
 			if track['disc_number'] > 1:
 				album_data['is_multi-disc'] = True
 
-		else:
-			print(f'Successful data retrieval for {end - (step-i)} track(s)..')
-
+		print(f'Successful data retrieval for {start + len(data["tracks"])} track(s)..')
 		start, end = start+step, end+step
 
 	return album_data
@@ -345,7 +343,7 @@ def get_playlist_data(playlist_id):
 	playcount_data = {}
 	step = 0
 	while True:
-		for i, item in enumerate(data['items'], 1):
+		for item in data['items']:
 			track = item['track']
 
 			if (album_id := track['album']['id']) not in playcount_data:
@@ -362,8 +360,7 @@ def get_playlist_data(playlist_id):
 			}
 			playlist_data['tracks'].append(track_data)
 
-		else:
-			print(f'Successful data retrieval for {step*params["limit"] + i} track(s)..')
+		print(f'Successful data retrieval for {step*params["limit"] + len(data["items"])} track(s)..')
 
 		if data['next']:
 			data = _get(session, url=data['next'])
