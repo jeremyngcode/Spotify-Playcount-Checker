@@ -215,7 +215,7 @@ def get_artist_data(artist_id):
 					'total_tracks': str(album['total_tracks']),
 					'total_playcount': f'{playcount:,}',
 					'popularity_index': str(album['popularity']),
-					'cover_art_url': album['images'][0]['url'],
+					'cover_art_url': album['images'][1]['url'],
 					'spotify_url': album['external_urls']['spotify'],
 					'id': album['id']
 				}
@@ -276,7 +276,7 @@ def get_album_data(album_id=None, track_highlight=None):
 	for artist in data['artists']:
 		artist_data = {
 			'name': artist['name'],
-			'image_url': artist['images'][0]['url'],
+			'image_url': artist['images'][2]['url'],
 			'spotify_url': artist['external_urls']['spotify'],
 			'id': artist['id']
 		}
@@ -354,7 +354,7 @@ def get_playlist_data(playlist_id):
 				'playcount': f'{playcount_data[album_id][track["name"]]:,}',
 				'popularity_index': str(track['popularity']),
 				'artists': track['artists'],
-				'cover_art_url': track['album']['images'][0]['url'],
+				'cover_art_url': track['album']['images'][1]['url'],
 				'spotify_url': track['album']['external_urls']['spotify'],
 				'id': track['id']
 			}
