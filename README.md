@@ -15,7 +15,7 @@ Run [app.py](app.py) and then copy-paste the Spotify URI or URL of the resource 
 
 Inputting a wrongly formatted or invalid Spotify URI / URL will result in a mischievous cheeky pokemon appearing, don't try it! <br>
 
-The app is currently able to fetch data for 3 categories of which one of two page types will be served depending on the category as per below.
+The app is currently able to fetch data for 4 categories of which one of three page types will be served depending on the category as per below.
 
 1. Artist page ([playcount-artist.html.j2](templates/playcount-artist.html.j2)) for <em>Artist</em> queries. <br>
    <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/d841fee7-eee3-4d46-b822-26a73a42610a" alt="sample-artist-page-light" width="600">
@@ -24,6 +24,9 @@ The app is currently able to fetch data for 3 categories of which one of two pag
    <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/d10e8346-0c86-40c9-8829-a99d7702bafc" alt="sample-album-page-light" width="600">
 
    For track queries, the corresponding table row will be highlighted as well, as seen in the screenshot above.
+
+3. Playlist page ([playcount-playlist.html.j2](templates/playcount-playlist.html.j2)) for <em>Playlist</em> queries. <br>
+   <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/fb269f69-d275-4af9-86b6-02d757c8eb9b" alt="sample-playlist-page-light" width="600">
 
 - All Spotify icon and image hyperlinks will redirect to Spotify's site, while text hyperlinks are internal, most of which are simply new queries. Pressing the A, C, and S navigation buttons at the bottom right corner will scroll to the Albums, Compilations, and Singles tables respectively.
 
@@ -35,7 +38,7 @@ The app is currently able to fetch data for 3 categories of which one of two pag
 
 Some Thoughts...
 ----------------
-While the app is fast for album and track queries, it does however take some time for artist ones. As a rough gauge, my own artist page with about 30+ releases takes on average ~4 seconds. Unfortunately I'm not aware of a method / endpoint for retrieving playcount data for multiple releases in one call at this point, and playcount data in particular is actually not officially documented on Spotify's developer site. Nevertheless, while I was trying to find ways to speed things up, I did learn to use the `Session` object from the `requests` library for the first time at the very least! And it did actually make a very noticeable difference.
+While the app is fast for album and track queries, it does however take some time for artist and playlist ones. As a rough gauge, my own artist page with about 30+ releases takes on average ~4 seconds. Unfortunately I'm not aware of a method / endpoint for retrieving playcount data for multiple releases in one call at this point, and playcount data in particular is actually not officially documented on Spotify's developer site. Nevertheless, while I was trying to find ways to speed things up, I did learn to use the `Session` object from the `requests` library for the first time at the very least! And it did actually make a very noticeable difference.
 
 Another first for me was dark mode styling which I spent quite a bit of time working on and turned out to be quite satisfying! Instead of using a toggle for this, I made it based on the browser appearance settings with the `@media (prefers-color-scheme: dark)` CSS rule which I think is simpler.
 
