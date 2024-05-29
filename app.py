@@ -47,7 +47,7 @@ def playcount_page():
 			'page': playlist_page,
 			'data': get_playlist_data(spotify_id)
 		}
-	print('Time taken to load data:', time.perf_counter()-now)
+	print('Time taken to load data:', round(time.perf_counter()-now, 3), 'seconds')
 
 	with open(SPOTIFY_DATA, 'w') as f:
 		json.dump(data, f, indent=4)
@@ -250,12 +250,14 @@ def get_album_data(album_id=None, track_highlight=None):
 		'name': data['name'],
 		'total_playcount': f'{total_playcount:,}',
 		'popularity_index': str(data['popularity']),
-		'image_url': data['images'][0]['url'],
+		'image_url': None,
 		'spotify_url': data['external_urls']['spotify'],
 		'artists': [],
 		'tracks': [],
 		'is_multi-disc': False
 	}
+	if album_images := data['images']:
+		album_data['image_url'] = album_images[0]['url']
 
 	artist_id_list = [artist['id'] for artist in data['artists']]
 	track_id_list = [item['id'] for item in data['tracks']['items']]
@@ -293,10 +295,11 @@ def get_album_data(album_id=None, track_highlight=None):
 		data = _get(session, endpoint, **params)
 
 		for track in data['tracks']:
-			playcount = album_playcount[track['name']]
+			title = track['name'] if track['name'] else track['uri']
+			playcount = album_playcount[track['uri']]
 
 			track_data = {
-				'title': track['name'],
+				'title': title,
 				'disc_number': str(track['disc_number']),
 				'track_number': str(track['track_number']),
 				'playcount': f'{playcount:,}',
@@ -334,7 +337,7 @@ def get_playlist_data(playlist_id):
 	endpoint = f"/playlists/{playlist_id}/tracks"
 	params = {
 		'market': None,
-		'fields': 'next,items(track(name,popularity,id),track.artists(name,id),track.album(images,external_urls,id)',
+		'fields': 'next,items(track(name,popularity,id,uri),track.artists(name,id),track.album(images,external_urls,id)',
 		'limit': 100,
 		'offset': 0
 	}
@@ -349,15 +352,21 @@ def get_playlist_data(playlist_id):
 			if (album_id := track['album']['id']) not in playcount_data:
 				playcount_data[album_id] = _get_album_playcount(session, album_id)[0]
 
+			title = track['name'] if track['name'] else track['uri']
+			playcount = playcount_data[album_id][track['uri']]
+
 			track_data = {
-				'title': track['name'],
-				'playcount': f'{playcount_data[album_id][track["name"]]:,}',
+				'title': title,
+				'playcount': f'{playcount:,}',
 				'popularity_index': str(track['popularity']),
 				'artists': track['artists'],
-				'cover_art_url': track['album']['images'][1]['url'],
+				'cover_art_url': None,
 				'spotify_url': track['album']['external_urls']['spotify'],
 				'id': track['id']
 			}
+			if album_images := track['album']['images']:
+				track_data['cover_art_url'] = album_images[1]['url']
+
 			playlist_data['tracks'].append(track_data)
 
 		print(f'Successful data retrieval for {step*params["limit"] + len(data["items"])} track(s)..')
@@ -399,8 +408,9 @@ def _get_album_playcount(session, album_id):
 
 	for item in data['data']['album']['tracks']['items']:
 		track = item['track']
-		title, playcount = track['name'], track['playcount']
-		album_playcount[title] = int(playcount)
+
+		track_uri, playcount = track['uri'], track['playcount']
+		album_playcount[track_uri] = int(playcount)
 
 	total_playcount = sum(album_playcount.values())
 

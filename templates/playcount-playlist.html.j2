@@ -19,7 +19,11 @@
 				<tr>
 					<td class="album-cover-art">
 						<a href="{{ track['spotify_url'] }}" target="_blank">
-							<img src="{{ track['cover_art_url'] }}">
+							{% if track['cover_art_url'] %}	
+								<img src="{{ track['cover_art_url'] }}">
+							{% else %}
+								<img src="{{ url_for('static', filename='girl-with-headphone.jpg') }}">
+							{% endif %}
 						</a>
 					</td>
 					<td class="title">

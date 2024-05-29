@@ -34,7 +34,11 @@
 	<main class="main-content-area">
 		<section class="data-card">
 			<a href="{{ spotify_url }}" class="spotify-img-wrapper" target="_blank">
-				<img src="{{ image_url }}", class="spotify-img" alt="{{ name }}">
+				{% if image_url %}
+					<img src="{{ image_url }}", class="spotify-img" alt="{{ name }}">
+				{% else %}
+					<img src="{{ url_for('static', filename='girl-with-headphone.jpg') }}" class="spotify-img">
+				{% endif %}
 			</a>
 
 			<div class="text-data">
