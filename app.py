@@ -4,12 +4,6 @@ from urllib.parse import urlparse
 
 from flask import Flask, render_template, request, abort
 from werkzeug.exceptions import HTTPException
-
-from spotify_web_api import (
-	get_artist_data,
-	get_album_data,
-	get_playlist_data
-)
 # -------------------------------------------------------------------------------------------------
 
 app = Flask(__name__)
@@ -30,22 +24,25 @@ def playcount_page():
 	artist_page, album_page, playlist_page = 'Artist', 'Album', 'Playlist'
 
 	if search_category == 'artist':
+		from spotify_web_api import get_artist_data
 		data = {
 			'page': artist_page,
 			'data': get_artist_data(spotify_id)
 		}
 	elif search_category == 'album':
+		from spotify_web_api import get_album_data
 		data = {
 			'page': album_page,
 			'data': get_album_data(spotify_id)
 		}
 	elif search_category == 'track':
+		from spotify_web_api import get_album_data
 		data = {
 			'page': album_page,
-			'data': get_album_data(track_highlight=spotify_id),
-			'track_highlight': spotify_id
+			'data': get_album_data(track_id=spotify_id)
 		}
 	elif search_category == 'playlist':
+		from spotify_web_api import get_playlist_data
 		data = {
 			'page': playlist_page,
 			'data': get_playlist_data(spotify_id)
@@ -55,7 +52,6 @@ def playcount_page():
 	with open(SPOTIFY_DATA, 'w') as f:
 		json.dump(data, f, indent=4)
 
-	track_highlight = data.get('track_highlight')
 	page, data = data['page'], data['data']
 
 	base_data = dict(
@@ -85,7 +81,7 @@ def playcount_page():
 			artists=data['artists'],
 			tracks=data['tracks'],
 			is_multidisc=data['is_multi-disc'],
-			track_highlight=track_highlight
+			track_highlight=data['track_highlight']
 		)
 	elif page == 'Playlist':
 		return render_template("playcount-playlist.html.j2",

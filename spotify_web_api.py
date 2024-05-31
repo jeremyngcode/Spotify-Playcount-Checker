@@ -4,6 +4,8 @@ from pprint import pprint
 import requests
 from requests.exceptions import Timeout
 from flask import abort
+
+from app import app
 # -------------------------------------------------------------------------------------------------
 
 BASE_API_URL = "https://api.spotify.com/v1"
@@ -50,6 +52,8 @@ def _abort_from_request(url, is_timeout, e=None):
 	abort(500, description=default_err_msg)
 
 # -------------------------------------------------------------------------------------------------
+MARKET = app.config['MARKET']
+
 def get_artist_data(artist_id):
 	session = requests.Session()
 
@@ -72,7 +76,7 @@ def get_artist_data(artist_id):
 		endpoint = f"/artists/{artist_id}/albums"
 		params = {
 			'include_groups': album_type,
-			'market': None,
+			'market': MARKET,
 			'limit': 50,
 			'offset': 0
 		}
@@ -92,7 +96,7 @@ def get_artist_data(artist_id):
 			endpoint = "/albums"
 			params = {
 				'ids': ','.join(album_id_list[start:end]),
-				'market': None
+				'market': MARKET
 			}
 			data = _get(session, endpoint, **params)
 
@@ -123,16 +127,16 @@ def get_artist_data(artist_id):
 	print('Total no. of releases:', total_albums)
 	return artist_data
 
-def get_album_data(album_id=None, track_highlight=None):
+def get_album_data(album_id=None, track_id=None):
 	session = requests.Session()
 
-	if track_highlight:
-		album_id = _get_album_id_for_track(session, track_highlight)
+	if track_id:
+		album_id = _get_album_id_for_track(session, track_id)
 
 	album_playcount, total_playcount = _get_album_playcount(session, album_id)
 
 	endpoint = f"/albums/{album_id}"
-	params = {'market': None}
+	params = {'market': MARKET}
 	data = _get(session, endpoint, **params)
 
 	album_data = {
@@ -143,13 +147,19 @@ def get_album_data(album_id=None, track_highlight=None):
 		'spotify_url': data['external_urls']['spotify'],
 		'artists': [],
 		'tracks': [],
-		'is_multi-disc': False
+		'is_multi-disc': False,
+		'track_highlight': track_id
 	}
 	if album_images := data['images']:
 		album_data['image_url'] = album_images[0]['url']
 
 	artist_id_list = [artist['id'] for artist in data['artists']]
 	track_id_list = [item['id'] for item in data['tracks']['items']]
+
+	linked_from_list = [
+		item['linked_from']['id'] if item.get('linked_from') else None
+		for item in data['tracks']['items']
+	]
 
 	data_next = data['tracks']['next']
 	while data_next:
@@ -158,7 +168,18 @@ def get_album_data(album_id=None, track_highlight=None):
 		for item in data['items']:
 			track_id_list.append(item['id'])
 
+			if item.get('linked_from'):
+				linked_from_list.append(item['linked_from']['id'])
+			else:
+				linked_from_list.append(None)
+
 		data_next = data['next']
+
+	if album_data['track_highlight']:
+		for track_id, linked_from in zip(track_id_list, linked_from_list):
+			if album_data['track_highlight'] == linked_from:
+				album_data['track_highlight'] = track_id
+				break
 
 	endpoint = "/artists"
 	params = {'ids': ','.join(artist_id_list)}
@@ -179,13 +200,26 @@ def get_album_data(album_id=None, track_highlight=None):
 		endpoint = "/tracks"
 		params = {
 			'ids': ','.join(track_id_list[start:end]),
-			'market': None
+			'market': MARKET
 		}
 		data = _get(session, endpoint, **params)
 
 		for track in data['tracks']:
 			title = track['name'] if track['name'] else track['uri']
-			playcount = album_playcount[track['uri']]
+
+			try:
+				playcount = album_playcount[track['uri']]
+			except KeyError:
+				album_id = track['album']['id']
+				album_playcount = _get_album_playcount(session, album_id)[0]
+
+				playcount = album_playcount[track['uri']]
+
+				endpoint = f"/albums/{album_id}"
+				params = {'market': MARKET}
+				data2 = _get(session, endpoint, **params)
+
+				album_data['popularity_index'] = str(data2['popularity'])
 
 			track_data = {
 				'title': title,
@@ -210,7 +244,7 @@ def get_playlist_data(playlist_id):
 
 	endpoint = f"/playlists/{playlist_id}"
 	params = {
-		'market': None,
+		'market': MARKET,
 		'fields': 'name,followers,images,external_urls'
 	}
 	data = _get(session, endpoint, **params)
@@ -225,24 +259,29 @@ def get_playlist_data(playlist_id):
 
 	endpoint = f"/playlists/{playlist_id}/tracks"
 	params = {
-		'market': None,
-		'fields': 'next,items(track(name,popularity,id,uri),track.artists(name,id),track.album(images,external_urls,id)',
+		'market': MARKET,
+		'fields': 'next,items(track(name,popularity,id,uri,linked_from),track.artists(name,id),track.album(images,external_urls,id)',
 		'limit': 100,
 		'offset': 0
 	}
 	data = _get(session, endpoint, **params)
 
 	playcount_data = {}
+	linked_from_list = []
 	step = 0
 	while True:
 		for item in data['items']:
 			track = item['track']
+			title = track['name'] if track['name'] else track['uri']
 
 			if (album_id := track['album']['id']) not in playcount_data:
 				playcount_data[album_id] = _get_album_playcount(session, album_id)[0]
 
-			title = track['name'] if track['name'] else track['uri']
-			playcount = playcount_data[album_id][track['uri']]
+			try:
+				playcount = playcount_data[album_id][track['uri']]
+			except KeyError:
+				playcount = playcount_data[album_id][track['linked_from']['uri']]
+				linked_from_list.append(track['id'])
 
 			track_data = {
 				'title': title,
@@ -266,12 +305,32 @@ def get_playlist_data(playlist_id):
 		else:
 			break
 
+	pop_data = {}
+	start, end = 0, 50
+	step = end
+	while linked_from_list[start:end]:
+		endpoint = "/tracks"
+		params = {
+			'ids': ','.join(linked_from_list[start:end]),
+			'market': MARKET
+		}
+		data = _get(session, endpoint, **params)
+
+		for track in data['tracks']:
+			pop_data[track['id']] = track['popularity']
+
+		start, end = start+step, end+step
+
+	for track in playlist_data['tracks']:
+		if track['id'] in pop_data:
+			track['popularity_index'] = str(pop_data[track['id']])
+
 	return playlist_data
 
 # -------------------------------------------------------------------------------------------------
 def _get_album_id_for_track(session, track_id):
 	endpoint = f"/tracks/{track_id}"
-	params = {'market': None}
+	params = {'market': MARKET}
 	data = _get(session, endpoint, **params)
 
 	return data['album']['id']
