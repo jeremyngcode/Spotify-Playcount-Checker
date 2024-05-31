@@ -64,12 +64,14 @@ def get_artist_data(artist_id):
 		'name': data['name'],
 		'total_playcount': 0,
 		'popularity_index': str(data['popularity']),
-		'image_url': data['images'][0]['url'],
+		'image_url': None,
 		'spotify_url': data['external_urls']['spotify'],
 		'albums': [],
 		'compilations': [],
 		'singles': []
 	}
+	if artist_images := data['images']:
+		artist_data['image_url'] = artist_images[0]['url']
 
 	total_albums = 0
 	for album_type in ('album', 'compilation', 'single'):
@@ -188,10 +190,13 @@ def get_album_data(album_id=None, track_id=None):
 	for artist in data['artists']:
 		artist_data = {
 			'name': artist['name'],
-			'image_url': artist['images'][2]['url'],
+			'image_url': None,
 			'spotify_url': artist['external_urls']['spotify'],
 			'id': artist['id']
 		}
+		if artist_images := artist['images']:
+			artist_data['image_url'] = artist_images[2]['url']
+
 		album_data['artists'].append(artist_data)
 
 	start, end = 0, 50
