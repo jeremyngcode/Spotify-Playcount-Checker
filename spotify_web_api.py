@@ -273,10 +273,16 @@ def get_playlist_data(playlist_id):
 
 	playcount_data = {}
 	linked_from_list = []
+	local_tracks = 0
 	step = 0
 	while True:
 		for item in data['items']:
 			track = item['track']
+
+			if 'spotify:local:' in track['uri']:
+				local_tracks += 1
+				continue
+
 			title = track['name'] if track['name'] else track['uri']
 
 			if (album_id := track['album']['id']) not in playcount_data:
@@ -309,6 +315,8 @@ def get_playlist_data(playlist_id):
 			step += 1
 		else:
 			break
+
+	print(f'{local_tracks} local track(s) detected / not included in table.')
 
 	updated_pop_data = {}
 	start, end = 0, 50
