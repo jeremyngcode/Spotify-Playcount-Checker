@@ -310,7 +310,7 @@ def get_playlist_data(playlist_id):
 		else:
 			break
 
-	pop_data = {}
+	updated_pop_data = {}
 	start, end = 0, 50
 	step = end
 	while linked_from_list[start:end]:
@@ -322,13 +322,13 @@ def get_playlist_data(playlist_id):
 		data = _get(session, endpoint, **params)
 
 		for track in data['tracks']:
-			pop_data[track['id']] = track['popularity']
+			updated_pop_data[track['id']] = track['popularity']
 
 		start, end = start+step, end+step
 
 	for track in playlist_data['tracks']:
-		if track['id'] in pop_data:
-			track['popularity_index'] = str(pop_data[track['id']])
+		if track['id'] in updated_pop_data:
+			track['popularity_index'] = str(updated_pop_data[track['id']])
 
 	return playlist_data
 
