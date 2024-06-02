@@ -26,7 +26,7 @@ The app is currently able to fetch data for 4 categories of which one of three p
    For track queries, the corresponding table row will be highlighted as well, as seen in the screenshot above.
 
 3. Playlist page ([playcount-playlist.html.j2](templates/playcount-playlist.html.j2)) for <em>Playlist</em> queries. <br>
-   <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/fb269f69-d275-4af9-86b6-02d757c8eb9b" alt="sample-playlist-page-light" width="600">
+   <img src="https://github.com/jeremyngcode/Spotify-Playcount-Checker/assets/156220343/492dc319-4989-4910-b63f-c256f15f977b" alt="sample-playlist-page-light" width="600">
 
 - All Spotify icon and image hyperlinks will redirect to Spotify's site, while text hyperlinks are internal, most of which are simply new queries. Pressing the A, C, and S navigation buttons at the bottom right corner will scroll to the Albums, Compilations, and Singles tables respectively.
 
