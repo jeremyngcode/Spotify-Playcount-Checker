@@ -259,7 +259,8 @@ def get_playlist_data(playlist_id):
 		'followers': f'{data["followers"]["total"]:,}',
 		'image_url': data['images'][0]['url'],
 		'spotify_url': data['external_urls']['spotify'],
-		'tracks': []
+		'tracks': [],
+		'track_count': None
 	}
 
 	endpoint = f"/playlists/{playlist_id}/tracks"
@@ -314,9 +315,9 @@ def get_playlist_data(playlist_id):
 			data = _get(session, url=data['next'])
 			step += 1
 		else:
+			playlist_data['track_count'] = len(playlist_data['tracks'])
+			print(f'{local_tracks} local track(s) detected / not included in table.')
 			break
-
-	print(f'{local_tracks} local track(s) detected / not included in table.')
 
 	updated_pop_data = {}
 	start, end = 0, 50

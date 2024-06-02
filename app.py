@@ -87,7 +87,8 @@ def playcount_page():
 		return render_template("playcount-playlist.html.j2",
 			**base_data,
 			followers=data['followers'],
-			tracks=data['tracks']
+			tracks=data['tracks'],
+			track_count=data['track_count']
 		)
 
 def process_form_input(form_input):

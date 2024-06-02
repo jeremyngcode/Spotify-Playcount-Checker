@@ -169,7 +169,7 @@ body {
 				}
 			}
 
-			.playcount-popularity h3, .followers h3 {
+			:is(.playcount-popularity, .followers-trackcount) h3 {
 				font-size: 1.375rem;
 			}
 		}
@@ -319,16 +319,18 @@ body {
 				}
 			}
 		}
-		.title .name, .title .artist {
-			&:hover {
-				color: var(--text-color-link-hover);
+		.title {
+			.name, .artist {
+				&:hover {
+					color: var(--text-color-link-hover);
+				}
 			}
-		}
-		.title .total-tracks, .title .artist {
-			font-size: 0.75rem;
-		}
-		.title .artist-links span:not(:last-of-type)::before {
-			content: ",";
+			.total-tracks, .artist {
+				font-size: 0.75rem;
+			}		
+			.artist-links span:not(:last-of-type)::before {
+				content: ",";
+			}	
 		}
 	}
 	/* Album page table */
