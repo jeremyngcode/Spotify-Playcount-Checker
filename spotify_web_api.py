@@ -274,11 +274,15 @@ def get_playlist_data(playlist_id):
 
 	playcount_data = {}
 	linked_from_list = []
-	local_tracks = 0
+	local_tracks, podcast_tracks = 0, 0
 	step = 0
 	while True:
 		for item in data['items']:
 			track = item['track']
+
+			if 'spotify:episode:' in track['uri']:
+				podcast_tracks += 1
+				continue
 
 			if 'spotify:local:' in track['uri']:
 				local_tracks += 1
@@ -316,7 +320,10 @@ def get_playlist_data(playlist_id):
 			step += 1
 		else:
 			playlist_data['track_count'] = len(playlist_data['tracks'])
-			print(f'{local_tracks} local track(s) detected / not included in table.')
+			print(
+				f'{podcast_tracks} podcast track(s) and '
+				f'{local_tracks} local track(s) detected / excluded from table.'
+			)
 			break
 
 	updated_pop_data = {}
