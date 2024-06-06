@@ -25,7 +25,7 @@ def _save_token_info():
 
 	if 'accessToken' not in response:
 		pprint(response)
-		print({'URL:', ACCESS_TOKEN_URL})
+		print({'URL': ACCESS_TOKEN_URL})
 
 		bad_response_msg = f'{bad_response} no access token granted.'
 		abort(500, description=bad_response_msg)
