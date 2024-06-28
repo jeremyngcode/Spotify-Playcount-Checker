@@ -249,6 +249,21 @@ body {
 			&.album-type-header, &.tracks-header {
 				background: linear-gradient(180deg, var(--pri-color-light-1) 90%, var(--pri-color) 100%);
 			}
+			&.playcount, &.popularity {
+				text-wrap: nowrap;
+				& span:hover {
+					cursor: pointer;
+				}
+				&.unsorted span::after {
+					content: " \2B65";
+				}
+				&.descending span::after {
+					content: " \2B73";
+				}
+				&.ascending span::after {
+					content: " \2B71";
+				}
+			}
 		}
 		& tbody tr {
 			border-bottom: 1px solid var(--tr-color-border-bottom);
