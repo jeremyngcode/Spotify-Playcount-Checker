@@ -7,9 +7,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Spotify Playcount Checker</title>
-	<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='colors.css') }}">
-	<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+	<link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/colors.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
@@ -21,7 +21,7 @@
 		<h1 class="header">Spotify Playcount Checker</h1>
 	</header>
 
-	<img src="{{ url_for('static', filename='girl-with-headphone.jpg') }}" class="girl-with-headphone" alt="girl-with-headphone">
+	<img src="{{ url_for('static', filename='images/girl-with-headphone.jpg') }}" class="girl-with-headphone" alt="girl-with-headphone">
 
 	<form method="GET" class="spotify-uri-search-form" action="{{ url_for('playcount_page') }}">
 		<label class="enter-spotify-uri" for="uri-input">Enter Spotify URI (artist / album / track / playlist):</label>
