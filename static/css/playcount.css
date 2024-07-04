@@ -46,6 +46,7 @@ body {
 		display: flex;
 		flex: 1;
 		height: 2rem;
+		position: relative;
 		
 		.uri-input {
 			min-width: 22rem;
@@ -91,6 +92,22 @@ body {
 					hsl(0 0% 100% / 30%) 0px 0px 15px 2px;
 				transition: 0.05s;
 			}
+		}
+
+		.loading {
+			position: absolute;
+			width: 2rem;
+			height: 2rem;
+			top: 2.875rem;
+			right: 3rem;
+			border: 0.125rem solid;
+			box-sizing: border-box;
+			border-radius: 50%;
+			border-color: var(--accent-color) hsl(0 0% 20%);
+			z-index: -1;
+			animation: 
+				SwirlDown 0.2s linear,
+				Rotate360 0.8s linear 0.2s infinite;
 		}
 	}
 }
@@ -426,4 +443,13 @@ body {
 
 @keyframes FadeIn {
 	from {opacity: 0;}
+}
+
+@keyframes SwirlDown {
+	from {transform: translateY(-2rem) rotate(270deg);}
+	to {transform: translateY(0) rotate(360deg);}
+}
+
+@keyframes Rotate360 {
+	to {transform: rotate(360deg);}
 }

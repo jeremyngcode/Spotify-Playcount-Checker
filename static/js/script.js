@@ -1,3 +1,4 @@
+// Table sorting
 const sortStates = ['unsorted', 'descending', 'ascending'];
 const tables = document.querySelectorAll('table');
 
@@ -53,3 +54,12 @@ tables.forEach((table) => {
 		};
 	});
 });
+
+// Loading animation
+const searchForm = document.querySelector('.spotify-uri-search-form');
+let loader;
+
+searchForm.onsubmit = (event) => {
+	loader = searchForm.querySelector('.loader');
+	loader.classList.add('loading');
+};

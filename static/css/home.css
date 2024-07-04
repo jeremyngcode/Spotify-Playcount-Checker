@@ -60,6 +60,7 @@ body {
 	border-radius: 0.625rem;
 	background-color: var(--bg-color-uri-search-form);
 	box-shadow: hsl(var(--pri-H) var(--pri-S) var(--pri-L) / 60%) 0px 2px 6px inset;
+	position: relative;
 	@media (prefers-color-scheme: dark) {
 		& {
 			box-shadow:
@@ -136,6 +137,21 @@ body {
 			}
 		}
 	}
+
+	.loading {
+		position: absolute;
+		width: 2rem;
+		height: 2rem;
+		top: 10.5rem;
+		border: 0.125rem solid;
+		box-sizing: border-box;
+		border-radius: 50%;
+		border-color: var(--accent-color) hsl(0 0% 20%);
+		z-index: -1;
+		animation: 
+			SwirlDown 0.2s linear,
+			Rotate360 0.8s linear 0.2s infinite;
+	}
 }
 
 .error-box {
@@ -183,6 +199,15 @@ body {
 
 @keyframes FadeIn {
 	from {opacity: 0;}
+}
+
+@keyframes SwirlDown {
+	from {transform: translateY(-2rem) rotate(270deg);}
+	to {transform: translateY(0) rotate(360deg);}
+}
+
+@keyframes Rotate360 {
+	to {transform: rotate(360deg);}
 }
 
 @keyframes SlideDown {

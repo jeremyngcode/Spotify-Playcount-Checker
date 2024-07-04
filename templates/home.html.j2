@@ -13,6 +13,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&display=swap">
+	<script src="{{url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 
 <body>
@@ -34,6 +35,7 @@
 			required
 		>
 		<button type="submit" class="submit-btn">Get Playcount!</button>
+		<div class="loader"></div>
 	</form>
 
 	{% block error_box %}
