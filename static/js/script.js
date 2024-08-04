@@ -1,6 +1,7 @@
+const tables = document.querySelectorAll('table');
+
 // Table sorting
 const sortStates = ['unsorted', 'descending', 'ascending'];
-const tables = document.querySelectorAll('table');
 
 tables.forEach((table) => {
 	let playcountHeader = [
@@ -55,11 +56,48 @@ tables.forEach((table) => {
 	});
 });
 
-// Loading animation
-const searchForm = document.querySelector('.spotify-uri-search-form');
+// Loading animation (form submission)
 let loader;
+const searchForm = document.querySelector('.spotify-uri-search-form');
 
 searchForm.onsubmit = (event) => {
 	loader = searchForm.querySelector('.loader');
 	loader.classList.add('loading');
+};
+
+// Loading animation (links)
+let loader2 = document.querySelector('.loader-2');
+const artistLinksCard = document.querySelector('.artist-links-card');
+
+if (artistLinksCard) {
+	let albumArtists = artistLinksCard.querySelectorAll('.name');
+
+	albumArtists.forEach((artist) => {
+		artist.onclick = (event) => {
+			loader2.classList.add('loading-2');
+		};
+	});
+} else {
+	tables.forEach((table) => {
+		let titleColumn = Array.from(table.querySelectorAll('.title'));
+		titleColumn = titleColumn.slice(1);
+
+		for (let cell of titleColumn) {
+			let name = cell.querySelector('.name');
+			let artists = cell.querySelectorAll('.artist');
+
+			if (name) {
+				name.onclick = (event) => {
+					loader2.classList.add('loading-2');
+				};
+			};
+			if (artists) {
+				artists.forEach((artist) => {
+					artist.onclick = (event) => {
+						loader2.classList.add('loading-2');
+					};
+				});
+			};
+		};
+	});
 };

@@ -441,6 +441,21 @@ body {
 	}
 }
 
+.loading-2 {
+	position: fixed;
+	width: 1.75rem;
+	height: 1.75rem;
+	bottom: calc(3.5rem + 0.625rem);
+	right: calc(var(--side-margin) + 3rem + 0.625rem);
+	border: 0.125rem solid;
+	box-sizing: border-box;
+	border-radius: 50%;
+	border-color: var(--accent-color) hsl(0 0% 20%);
+	animation:
+		SwirlUp 0.2s linear,
+		Rotate360 0.8s linear 0.2s infinite;
+}
+
 @keyframes FadeIn {
 	from {opacity: 0;}
 }
@@ -452,4 +467,12 @@ body {
 
 @keyframes Rotate360 {
 	to {transform: rotate(360deg);}
+}
+
+@keyframes SwirlUp {
+	from {
+		transform: translateY(2rem) rotate(270deg);
+		opacity: 0;
+	}
+	to {transform: translateY(0) rotate(360deg);}
 }
